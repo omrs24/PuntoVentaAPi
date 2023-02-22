@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,10 @@ use App\Http\Controllers\ApiController;
 Route::middleware(['auth:sanctum'])->group(function(){
 
     //Get all users
-    Route::get('/users' , [ApiController::class,'users']);
+    Route::get('/users' , [UserController::class,'index']);
 
+    //Get user 
+    Route::get('/user/{id}' , [UserController::class,'show']);
     
 
 

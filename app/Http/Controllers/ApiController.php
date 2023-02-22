@@ -13,17 +13,16 @@ class ApiController extends Controller
     private $response = ["status" => 0,
                         "message" => ""];
 
-    //gettoken
+    /**
+     * Get api token per user
+    */
     public function getToken(Request $request){
         
-        /**
-         * Get Json data into seriallized array
-         */
+        //Get Json data into seriallized array
         $data = json_decode($request->getContent());
 
-        /**
-         * Validate if info has been send
-         */
+        
+        //Validate if info has been send 
         if(!isset($data->email) || !isset($data->password)){
             $this->response["status"] = 400;
             $this->response["message"] = "You must send email and password";
@@ -31,14 +30,10 @@ class ApiController extends Controller
             return response()->json($this->response,400);
         }
             
-        /**
-         * Look up on the email send
-         */
+        //Look up for the send email
         $user = User::where('email' , $data->email)->first();
 
-        /**
-         * If users does not exist return error message
-         */
+        //If users does not exist return error message
         if(!$user){
             $this->response["status"] = 401;
             $this->response["message"] = "User not found";
@@ -47,9 +42,7 @@ class ApiController extends Controller
         }
         
 
-        /**
-         * If password is incorrect send error message
-         */
+        //If password is incorrect send error message
         if(!Hash::check($data->password,$user->password)){
             $this->response["status"] = 401;
             $this->response["message"] = "Incorrect credentials";
@@ -67,26 +60,27 @@ class ApiController extends Controller
 
     }
 
-    //
+    
+
+    //Get all users
     public function users(Request $request){
 
-        $users = User::all();
-
-        return response()->json($users);
+        
 
     }
 
-    //
+    public function user(Request $request){
+
+        
+
+    }
+
+    //Create Random user for testing
     public function usersfact(Request $request){
 
         $user = $user = User::factory()->create();
 
         return response()->json($user);
 
-    }
-
-    //
-    public function login(Request $request){
-        
     }
 }
